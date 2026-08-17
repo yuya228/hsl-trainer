@@ -24,12 +24,14 @@ button{cursor:pointer}
 .mode-list{display:grid;gap:12px}.mode-card{width:100%;text-align:left;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:18px;padding:17px 18px;display:grid;gap:7px}.mode-card:active{transform:scale(.992)}
 .mode-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.mode-name{font-size:20px;font-weight:900}.mode-desc{font-size:12px;color:var(--muted);line-height:1.5}.mode-best{font-size:12px;color:var(--muted2);font-variant-numeric:tabular-nums}
 .mode-arrow{font-size:22px;color:var(--muted2)}
+.layout-setting{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:9px}.layout-setting-head{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px;font-weight:800}.layout-setting-head span:last-child{color:var(--text)}
+.layout-toggle{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;border:1px solid var(--line);border-radius:14px;background:#15171c}.layout-option{min-height:38px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:12px;font-weight:900}.layout-option.active{background:var(--panel3);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.22)}
 .menu-foot{text-align:center;color:var(--muted2);font-size:11px;margin-top:16px}
 .game-shell{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px}
 .game-head{display:grid;gap:9px}.game-topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.game-logo{font-size:18px}.stats{display:flex;gap:7px;align-items:center;justify-content:flex-end}.stat-pill{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}.stat-pill strong{color:var(--text);font-variant-numeric:tabular-nums}
 .progress{display:flex;gap:7px}.dot{width:9px;height:9px;border-radius:50%;background:#3b3f49}.dot.done{background:var(--yellow)}.dot.current{width:15px;height:15px;margin-top:-3px;border:3px solid #fff;background:#717783;box-shadow:0 0 0 3px rgba(255,255,255,.05)}
-.game-main{min-height:0;display:grid;grid-template-rows:minmax(120px,1fr) auto;gap:10px}
-.swatches{min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.swatch-card{min-height:0;display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+.game-main{min-height:0;display:grid;grid-template-rows:auto auto;align-content:start;gap:10px}
+.swatches{min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-self:start}.swatch-card{min-height:0;aspect-ratio:1/1;display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
 .card-head{display:flex;justify-content:space-between;padding:8px 10px;background:rgba(0,0,0,.16);font-size:10px;font-weight:850;letter-spacing:.06em;color:var(--muted)}.swatch{min-height:0}
 .controls{display:grid;gap:6px;padding:9px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
 .row{display:grid;grid-template-columns:60px 32px minmax(0,1fr) 32px 48px;align-items:center;gap:6px;min-height:40px}.name{display:flex;align-items:baseline;gap:4px;white-space:nowrap}.letter{font-size:17px;font-weight:900}.jp{font-size:10px;font-weight:800;color:var(--muted)}
@@ -48,6 +50,29 @@ button{cursor:pointer}
 .exact{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:11px 12px;color:var(--muted);font-size:11px;line-height:1.65;font-variant-numeric:tabular-nums}
 #summaryScreen{overflow:hidden}.summary-shell{height:100dvh;overflow:auto;-webkit-overflow-scrolling:touch;padding:max(16px,env(safe-area-inset-top)) 14px max(22px,env(safe-area-inset-bottom))}.summary-card{width:min(100%,620px);margin:0 auto;border:1px solid var(--line);background:var(--panel);border-radius:24px;padding:22px 18px;display:grid;gap:16px}
 .summary-title{display:flex;align-items:center;justify-content:center;gap:9px;font-size:20px;font-weight:900}.mode-tag{font-size:11px;border:1px solid var(--line);background:var(--panel2);border-radius:999px;color:var(--muted);padding:6px 10px}.record{text-align:center}.record-badge{display:none;margin:0 auto 8px;width:max-content;border:1px solid rgba(255,211,102,.5);background:#3a321f;color:var(--yellow);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:900}.record-badge.show{display:block}.total{font-size:58px;font-weight:950;line-height:1;font-variant-numeric:tabular-nums}.total span{font-size:18px;color:var(--muted);font-weight:700}.summary-meta{margin-top:8px;color:var(--muted);font-size:12px}.round-list{display:grid;gap:8px}.round-item{display:grid;grid-template-columns:32px 54px 28px 1fr auto;gap:9px;align-items:center;background:var(--panel2);border-radius:13px;padding:9px 10px;color:var(--muted);font-size:12px}.mini-swatch{display:grid;grid-template-columns:1fr 1fr;height:24px;border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}.round-grade{font-weight:950}.round-score{font-variant-numeric:tabular-nums}.round-de{font-variant-numeric:tabular-nums}.summary-actions{display:grid;gap:10px}
+html.layout-ipad .shell{width:min(100%,980px)}
+html.layout-ipad .menu-wrap{max-width:720px}
+html.layout-ipad .menu-card{padding:30px 28px}
+html.layout-ipad .menu-title{font-size:30px}
+html.layout-ipad .menu-sub{font-size:14px}
+html.layout-ipad .mode-card{padding:20px 22px}
+html.layout-ipad .game-main{gap:16px}
+html.layout-ipad .swatches{width:min(100%,620px);margin:0 auto;gap:14px}
+html.layout-ipad .controls{width:min(100%,820px);margin:0 auto;padding:14px;gap:9px}
+html.layout-ipad .row{grid-template-columns:72px 40px minmax(0,1fr) 40px 56px;gap:10px;min-height:50px}
+html.layout-ipad .step{width:40px;height:40px;border-radius:12px;font-size:24px}
+html.layout-ipad .letter{font-size:20px}html.layout-ipad .jp{font-size:11px}html.layout-ipad .value{font-size:13px}
+html.layout-ipad .game-actions{width:min(100%,820px);margin:0 auto}
+html.layout-ipad .primary{min-height:58px}
+html.layout-ipad .result-wrap{width:min(100%,760px)}
+html.layout-ipad .summary-card{width:min(100%,760px)}
+@media(min-width:900px){
+  html.layout-ipad .game-main{grid-template-columns:minmax(0,520px) minmax(360px,1fr);grid-template-rows:auto;align-items:start}
+  html.layout-ipad .swatches,html.layout-ipad .controls{width:100%;max-width:none;margin:0}
+  html.layout-ipad .controls{align-self:start}
+  html.layout-ipad .game-actions{width:100%;max-width:none}
+}
 @media(max-height:720px){
-  .shell{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(9px,env(safe-area-inset-bottom));gap:7px}.game-shell{gap:7px}.game-head{gap:6px}.game-logo{font-size:16px}.stat-pill{padding:5px 8px}.game-main{gap:7px;grid-template-rows:minmax(90px,1fr) auto}.card-head{padding:6px 8px}.controls{gap:3px;padding:7px}.row{min-height:35px;grid-template-columns:56px 28px minmax(0,1fr) 28px 44px;gap:5px}.step{width:28px;height:28px;border-radius:8px}.letter{font-size:15px}.jp{font-size:9px}.primary{min-height:46px}.result-card{padding:16px 15px;gap:12px}.grade-badge{width:72px;height:72px;font-size:34px}.big-score{font-size:46px}.compare-swatch{height:58px}.compare-rows{gap:9px}.summary-card{padding:18px 15px}.total{font-size:50px}
+  .shell{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(9px,env(safe-area-inset-bottom));gap:7px}.game-shell{gap:7px}.game-head{gap:6px}.game-logo{font-size:16px}.stat-pill{padding:5px 8px}.game-main{gap:7px;grid-template-rows:auto auto}.card-head{padding:6px 8px}.controls{gap:3px;padding:7px}.row{min-height:35px;grid-template-columns:56px 28px minmax(0,1fr) 28px 44px;gap:5px}.step{width:28px;height:28px;border-radius:8px}.letter{font-size:15px}.jp{font-size:9px}.primary{min-height:46px}.result-card{padding:16px 15px;gap:12px}.grade-badge{width:72px;height:72px;font-size:34px}.big-score{font-size:46px}.compare-swatch{height:58px}.compare-rows{gap:9px}.summary-card{padding:18px 15px}.total{font-size:50px}
+  html.layout-ipad .row{grid-template-columns:64px 34px minmax(0,1fr) 34px 50px;min-height:42px;gap:7px}html.layout-ipad .step{width:34px;height:34px}html.layout-ipad .controls{padding:10px;gap:5px}
 }
