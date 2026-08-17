@@ -1,34 +1,547 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#111318">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>HSL Trainer</title>
-<style>
-:root{color-scheme:dark;--bg:#111318;--panel:#1a1d24;--panel2:#222630;--text:#f5f7fb;--muted:#a8afbd;--line:#ffffff1a;--r:18px}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif}body{position:fixed;inset:0;touch-action:manipulation}button,input{font:inherit}.app{height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:max(12px,env(safe-area-inset-top)) 14px max(12px,env(safe-area-inset-bottom));max-width:720px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;min-height:34px}.brand{display:flex;align-items:baseline;gap:8px}.brand h1{margin:0;font-size:18px}.sub,.round{font-size:12px;color:var(--muted)}.game{min-height:0;display:grid;grid-template-rows:minmax(110px,1fr) auto auto;gap:12px}.swatches{min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{min-height:0;overflow:hidden;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);display:grid;grid-template-rows:auto 1fr}.label{display:flex;justify-content:space-between;padding:9px 11px;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--muted);background:#0002}.swatch{min-height:0;transition:background-color .08s linear}.controls{display:grid;gap:9px;padding:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}.row{display:grid;grid-template-columns:28px 1fr 48px;align-items:center;gap:9px;min-height:36px}.key{font-weight:900;text-align:center}.val{font-size:13px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:34px;margin:0;background:transparent;touch-action:none}input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:var(--track);border:1px solid #ffffff26}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;margin-top:-11px;border:3px solid #fff;border-radius:50%;background:#15171c;box-shadow:0 2px 8px #0006}.result{min-height:52px;display:grid;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}.result.hidden{visibility:hidden}.resultMain{display:flex;align-items:center;justify-content:space-between;gap:10px}.score{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums}.details{text-align:right;font-size:11px;line-height:1.45;color:var(--muted);font-variant-numeric:tabular-nums}.actions{display:grid;gap:8px}.btn{min-height:52px;border:0;border-radius:16px;padding:0 18px;font-weight:900;font-size:16px;touch-action:manipulation}.primary{background:#f3f5f8;color:#111318}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}@media(max-height:690px){.app{gap:8px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}.top{min-height:26px}.brand h1{font-size:16px}.sub{display:none}.game{gap:8px;grid-template-rows:minmax(86px,1fr) auto auto}.controls{gap:5px;padding:8px 10px}.row{min-height:31px}.result{min-height:44px;padding:7px 10px}.score{font-size:22px}.btn{min-height:46px}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#111318" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>HSL Trainer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111318;
+      --panel: #1a1d24;
+      --panel-2: #222630;
+      --text: #f5f7fb;
+      --muted: #a8afbd;
+      --line: rgba(255,255,255,.10);
+      --accent: #f3f5f8;
+      --danger: #ff6b75;
+      --success: #67d49a;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+      touch-action: manipulation;
+    }
+
+    button, input { font: inherit; }
+
+    .app {
+      height: 100dvh;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      padding:
+        max(12px, env(safe-area-inset-top))
+        14px
+        max(12px, env(safe-area-inset-bottom));
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: .02em;
+    }
+
+    .brand span,
+    .round {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .game {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(110px, 1fr) auto auto;
+      gap: 12px;
+    }
+
+    .swatches {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .swatch-card {
+      min-width: 0;
+      min-height: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .swatch-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      background: rgba(0,0,0,.16);
+    }
+
+    .swatch {
+      min-height: 0;
+      transition: background-color 100ms linear;
+    }
+
+    .controls {
+      display: grid;
+      gap: 9px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 28px 1fr 48px;
+      align-items: center;
+      gap: 9px;
+      min-height: 36px;
+    }
+
+    .control-key {
+      font-size: 15px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .control-value {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 34px;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      touch-action: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--track, linear-gradient(90deg, #777, #ddd));
+      border: 1px solid rgba(255,255,255,.15);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      margin-top: -11px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      background: #15171c;
+      box-shadow: 0 2px 8px rgba(0,0,0,.35);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--track, linear-gradient(90deg, #777, #ddd));
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      background: #15171c;
+    }
+
+    .result {
+      min-height: 52px;
+      display: grid;
+      align-items: center;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 10px 12px;
+    }
+
+    .result.hidden { visibility: hidden; }
+
+    .result-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .score {
+      font-size: 26px;
+      font-weight: 850;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .details {
+      text-align: right;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 16px;
+      min-height: 52px;
+      padding: 0 18px;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #111318;
+    }
+
+    .btn.secondary {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    @media (max-height: 690px) {
+      .app { gap: 8px; padding-top: max(8px, env(safe-area-inset-top)); padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+      .topbar { min-height: 26px; }
+      .brand h1 { font-size: 16px; }
+      .brand span { display: none; }
+      .game { gap: 8px; grid-template-rows: minmax(86px, 1fr) auto auto; }
+      .controls { gap: 5px; padding: 8px 10px; }
+      .control-row { min-height: 31px; }
+      input[type="range"] { height: 30px; }
+      .result { min-height: 44px; padding: 7px 10px; }
+      .score { font-size: 22px; }
+      .btn { min-height: 46px; }
+    }
+
+    @media (min-width: 620px) and (min-height: 760px) {
+      .app { padding-left: 22px; padding-right: 22px; gap: 16px; }
+      .game { gap: 16px; }
+      .controls { padding: 16px; gap: 12px; }
+      .control-row { grid-template-columns: 32px 1fr 58px; min-height: 42px; }
+      .btn { min-height: 58px; }
+    }
+  </style>
 </head>
 <body>
-<main class="app">
-<header class="top"><div class="brand"><h1>HSL Trainer</h1><span class="sub">色を見て H / S / L を合わせる</span></div><div class="round" id="round">1問目</div></header>
-<section class="game">
-<div class="swatches">
-<div class="card"><div class="label"><span>TARGET</span><span>お題</span></div><div class="swatch" id="target"></div></div>
-<div class="card"><div class="label"><span>YOUR COLOR</span><span>予想</span></div><div class="swatch" id="guess"></div></div>
-</div>
-<div class="controls">
-<label class="row"><span class="key">H</span><input id="h" type="range" min="0" max="359" value="180"><span class="val" id="hv">180°</span></label>
-<label class="row"><span class="key">S</span><input id="s" type="range" min="0" max="100" value="50"><span class="val" id="sv">50%</span></label>
-<label class="row"><span class="key">L</span><input id="l" type="range" min="0" max="100" value="50"><span class="val" id="lv">50%</span></label>
-</div>
-<div class="result hidden" id="result"><div class="resultMain"><div class="score" id="score">--点</div><div class="details" id="details"></div></div></div>
-</section>
-<div class="actions"><button class="btn primary" id="judge">判定する</button><button class="btn secondary" id="next" hidden>次の問題</button></div>
-</main>
-<script>
-(()=>{'use strict';const $=id=>document.getElementById(id),H=$('h'),S=$('s'),L=$('l'),targetEl=$('target'),guessEl=$('guess'),result=$('result'),judgeBtn=$('judge'),nextBtn=$('next');let target={h:0,s:0,l:0},round=0,judged=false;const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,clamp=(n,a,b)=>Math.min(b,Math.max(a,n)),css=c=>`hsl(${c.h} ${c.s}% ${c.l}%)`,guess=()=>({h:+H.value,s:+S.value,l:+L.value});function paint(){const g=guess();guessEl.style.background=css(g);$('hv').textContent=g.h+'°';$('sv').textContent=g.s+'%';$('lv').textContent=g.l+'%';H.style.setProperty('--track','linear-gradient(90deg,hsl(0 100% 50%),hsl(60 100% 50%),hsl(120 100% 50%),hsl(180 100% 50%),hsl(240 100% 50%),hsl(300 100% 50%),hsl(359 100% 50%))');S.style.setProperty('--track',`linear-gradient(90deg,hsl(${g.h} 0% ${g.l}%),hsl(${g.h} 100% ${g.l}%))`);L.style.setProperty('--track',`linear-gradient(90deg,hsl(${g.h} ${g.s}% 0%),hsl(${g.h} ${g.s}% 50%),hsl(${g.h} ${g.s}% 100%))`)}function newRound(){round++;judged=false;target={h:rand(0,359),s:rand(28,92),l:rand(24,76)};H.value=rand(0,359);S.value=rand(28,72);L.value=rand(32,68);targetEl.style.background=css(target);$('round').textContent=round+'問目';result.classList.add('hidden');judgeBtn.hidden=false;nextBtn.hidden=true;paint()}function hsl2rgb({h,s,l}){s/=100;l/=100;const c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2;let r=0,g=0,b=0;if(h<60)[r,g,b]=[c,x,0];else if(h<120)[r,g,b]=[x,c,0];else if(h<180)[r,g,b]=[0,c,x];else if(h<240)[r,g,b]=[0,x,c];else if(h<300)[r,g,b]=[x,0,c];else[r,g,b]=[c,0,x];return[r+m,g+m,b+m]}function rgb2lab([r,g,b]){const lin=v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4;r=lin(r);g=lin(g);b=lin(b);const x=(r*.4124564+g*.3575761+b*.1804375)/.95047,y=r*.2126729+g*.7151522+b*.072175,z=(r*.0193339+g*.119192+b*.9503041)/1.08883,f=t=>t>216/24389?Math.cbrt(t):(24389/27*t+16)/116,fx=f(x),fy=f(y),fz=f(z);return[116*fy-16,500*(fx-fy),200*(fy-fz)]}function de00(a,b){const [L1,a1,b1]=a,[L2,a2,b2]=b,C1=Math.hypot(a1,b1),C2=Math.hypot(a2,b2),Cb=(C1+C2)/2,G=.5*(1-Math.sqrt(Cb**7/(Cb**7+25**7))),a1p=(1+G)*a1,a2p=(1+G)*a2,C1p=Math.hypot(a1p,b1),C2p=Math.hypot(a2p,b2),hp=(x,y)=>{let h=Math.atan2(y,x)*180/Math.PI;return h<0?h+360:h},h1=hp(a1p,b1),h2=hp(a2p,b2),dL=L2-L1,dC=C2p-C1p;let dh;if(C1p*C2p===0)dh=0;else if(Math.abs(h2-h1)<=180)dh=h2-h1;else dh=h2-h1>180?h2-h1-360:h2-h1+360;const dH=2*Math.sqrt(C1p*C2p)*Math.sin(dh/2*Math.PI/180),Lb=(L1+L2)/2,Cbp=(C1p+C2p)/2;let hb;if(C1p*C2p===0)hb=h1+h2;else if(Math.abs(h1-h2)<=180)hb=(h1+h2)/2;else hb=h1+h2<360?(h1+h2+360)/2:(h1+h2-360)/2;const T=1-.17*Math.cos((hb-30)*Math.PI/180)+.24*Math.cos(2*hb*Math.PI/180)+.32*Math.cos((3*hb+6)*Math.PI/180)-.2*Math.cos((4*hb-63)*Math.PI/180),dt=30*Math.exp(-((hb-275)/25)**2),Rc=2*Math.sqrt(Cbp**7/(Cbp**7+25**7)),Sl=1+.015*(Lb-50)**2/Math.sqrt(20+(Lb-50)**2),Sc=1+.045*Cbp,Sh=1+.015*Cbp*T,Rt=-Math.sin(2*dt*Math.PI/180)*Rc,x=dL/Sl,y=dC/Sc,z=dH/Sh;return Math.sqrt(x*x+y*y+z*z+Rt*y*z)}function judge(){if(judged)return;judged=true;const g=guess(),d=de00(rgb2lab(hsl2rgb(target)),rgb2lab(hsl2rgb(g))),score=clamp(Math.round(100*Math.exp(-(d/18)**1.35)),0,100);$('score').textContent=score+'点';$('details').innerHTML=`正解 H ${target.h}° / S ${target.s}% / L ${target.l}%<br>予想 H ${g.h}° / S ${g.s}% / L ${g.l}% · ΔE ${d.toFixed(1)}`;result.classList.remove('hidden');judgeBtn.hidden=true;nextBtn.hidden=false}[H,S,L].forEach(r=>r.addEventListener('input',paint,{passive:true}));document.addEventListener('touchmove',e=>{if(!e.target.closest('input[type=range]'))e.preventDefault()},{passive:false});judgeBtn.onclick=judge;nextBtn.onclick=newRound;newRound()})();
-</script>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>HSL Trainer</h1>
+        <span>色を見て、H / S / L を合わせる</span>
+      </div>
+      <div class="round" id="roundLabel">1問目</div>
+    </header>
+
+    <section class="game" aria-label="HSL color training game">
+      <div class="swatches">
+        <article class="swatch-card">
+          <div class="swatch-label"><span>Target</span><span>お題</span></div>
+          <div class="swatch" id="targetSwatch"></div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-label"><span>Your Color</span><span>予想</span></div>
+          <div class="swatch" id="guessSwatch"></div>
+        </article>
+      </div>
+
+      <div class="controls">
+        <label class="control-row">
+          <span class="control-key">H</span>
+          <input id="hRange" type="range" min="0" max="359" value="180" aria-label="Hue" />
+          <span class="control-value" id="hValue">180°</span>
+        </label>
+        <label class="control-row">
+          <span class="control-key">S</span>
+          <input id="sRange" type="range" min="0" max="100" value="50" aria-label="Saturation" />
+          <span class="control-value" id="sValue">50%</span>
+        </label>
+        <label class="control-row">
+          <span class="control-key">L</span>
+          <input id="lRange" type="range" min="0" max="100" value="50" aria-label="Lightness" />
+          <span class="control-value" id="lValue">50%</span>
+        </label>
+      </div>
+
+      <div class="result hidden" id="resultBox" aria-live="polite">
+        <div class="result-main">
+          <div class="score" id="scoreText">--点</div>
+          <div class="details" id="resultDetails"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn primary" id="judgeButton" type="button">判定する</button>
+      <button class="btn secondary" id="nextButton" type="button" hidden>次の問題</button>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const $ = (id) => document.getElementById(id);
+      const targetSwatch = $('targetSwatch');
+      const guessSwatch = $('guessSwatch');
+      const hRange = $('hRange');
+      const sRange = $('sRange');
+      const lRange = $('lRange');
+      const hValue = $('hValue');
+      const sValue = $('sValue');
+      const lValue = $('lValue');
+      const judgeButton = $('judgeButton');
+      const nextButton = $('nextButton');
+      const resultBox = $('resultBox');
+      const scoreText = $('scoreText');
+      const resultDetails = $('resultDetails');
+      const roundLabel = $('roundLabel');
+
+      let target = { h: 0, s: 0, l: 0 };
+      let round = 0;
+      let judged = false;
+
+      const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+      const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+      function hslCss({ h, s, l }) {
+        return `hsl(${h} ${s}% ${l}%)`;
+      }
+
+      function getGuess() {
+        return {
+          h: Number(hRange.value),
+          s: Number(sRange.value),
+          l: Number(lRange.value)
+        };
+      }
+
+      function updateGuess() {
+        const guess = getGuess();
+        guessSwatch.style.backgroundColor = hslCss(guess);
+        hValue.textContent = `${guess.h}°`;
+        sValue.textContent = `${guess.s}%`;
+        lValue.textContent = `${guess.l}%`;
+
+        hRange.style.setProperty('--track', 'linear-gradient(90deg, hsl(0 100% 50%), hsl(60 100% 50%), hsl(120 100% 50%), hsl(180 100% 50%), hsl(240 100% 50%), hsl(300 100% 50%), hsl(359 100% 50%))');
+        sRange.style.setProperty('--track', `linear-gradient(90deg, hsl(${guess.h} 0% ${guess.l}%), hsl(${guess.h} 100% ${guess.l}%))`);
+        lRange.style.setProperty('--track', `linear-gradient(90deg, hsl(${guess.h} ${guess.s}% 0%), hsl(${guess.h} ${guess.s}% 50%), hsl(${guess.h} ${guess.s}% 100%))`);
+      }
+
+      function newRound() {
+        round += 1;
+        judged = false;
+
+        target = {
+          h: randInt(0, 359),
+          s: randInt(28, 92),
+          l: randInt(24, 76)
+        };
+
+        hRange.value = randInt(0, 359);
+        sRange.value = randInt(28, 72);
+        lRange.value = randInt(32, 68);
+
+        targetSwatch.style.backgroundColor = hslCss(target);
+        roundLabel.textContent = `${round}問目`;
+        resultBox.classList.add('hidden');
+        judgeButton.hidden = false;
+        nextButton.hidden = true;
+        updateGuess();
+      }
+
+      function hslToRgb(h, s, l) {
+        h = ((h % 360) + 360) % 360;
+        s /= 100;
+        l /= 100;
+
+        const c = (1 - Math.abs(2 * l - 1)) * s;
+        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        const m = l - c / 2;
+        let r1 = 0, g1 = 0, b1 = 0;
+
+        if (h < 60) [r1, g1, b1] = [c, x, 0];
+        else if (h < 120) [r1, g1, b1] = [x, c, 0];
+        else if (h < 180) [r1, g1, b1] = [0, c, x];
+        else if (h < 240) [r1, g1, b1] = [0, x, c];
+        else if (h < 300) [r1, g1, b1] = [x, 0, c];
+        else [r1, g1, b1] = [c, 0, x];
+
+        return [r1 + m, g1 + m, b1 + m];
+      }
+
+      function rgbToLab([r, g, b]) {
+        const linear = (v) => v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        r = linear(r); g = linear(g); b = linear(b);
+
+        const x = (r * 0.4124564 + g * 0.3575761 + b * 0.1804375) / 0.95047;
+        const y = (r * 0.2126729 + g * 0.7151522 + b * 0.0721750) / 1.00000;
+        const z = (r * 0.0193339 + g * 0.1191920 + b * 0.9503041) / 1.08883;
+
+        const f = (t) => t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116;
+        const fx = f(x), fy = f(y), fz = f(z);
+        return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
+      }
+
+      function deltaE2000(lab1, lab2) {
+        const [L1, a1, b1] = lab1;
+        const [L2, a2, b2] = lab2;
+        const kL = 1, kC = 1, kH = 1;
+        const C1 = Math.hypot(a1, b1);
+        const C2 = Math.hypot(a2, b2);
+        const Cbar = (C1 + C2) / 2;
+        const G = 0.5 * (1 - Math.sqrt(Math.pow(Cbar, 7) / (Math.pow(Cbar, 7) + Math.pow(25, 7))));
+        const a1p = (1 + G) * a1;
+        const a2p = (1 + G) * a2;
+        const C1p = Math.hypot(a1p, b1);
+        const C2p = Math.hypot(a2p, b2);
+
+        const hp = (a, b) => {
+          let h = Math.atan2(b, a) * 180 / Math.PI;
+          if (h < 0) h += 360;
+          return h;
+        };
+
+        const h1p = hp(a1p, b1);
+        const h2p = hp(a2p, b2);
+        const dLp = L2 - L1;
+        const dCp = C2p - C1p;
+
+        let dhp;
+        if (C1p * C2p === 0) dhp = 0;
+        else if (Math.abs(h2p - h1p) <= 180) dhp = h2p - h1p;
+        else if (h2p - h1p > 180) dhp = h2p - h1p - 360;
+        else dhp = h2p - h1p + 360;
+
+        const dHp = 2 * Math.sqrt(C1p * C2p) * Math.sin((dhp / 2) * Math.PI / 180);
+        const Lbarp = (L1 + L2) / 2;
+        const Cbarp = (C1p + C2p) / 2;
+
+        let hbarp;
+        if (C1p * C2p === 0) hbarp = h1p + h2p;
+        else if (Math.abs(h1p - h2p) <= 180) hbarp = (h1p + h2p) / 2;
+        else if (h1p + h2p < 360) hbarp = (h1p + h2p + 360) / 2;
+        else hbarp = (h1p + h2p - 360) / 2;
+
+        const T = 1
+          - 0.17 * Math.cos((hbarp - 30) * Math.PI / 180)
+          + 0.24 * Math.cos((2 * hbarp) * Math.PI / 180)
+          + 0.32 * Math.cos((3 * hbarp + 6) * Math.PI / 180)
+          - 0.20 * Math.cos((4 * hbarp - 63) * Math.PI / 180);
+
+        const dTheta = 30 * Math.exp(-Math.pow((hbarp - 275) / 25, 2));
+        const Rc = 2 * Math.sqrt(Math.pow(Cbarp, 7) / (Math.pow(Cbarp, 7) + Math.pow(25, 7)));
+        const Sl = 1 + 0.015 * Math.pow(Lbarp - 50, 2) / Math.sqrt(20 + Math.pow(Lbarp - 50, 2));
+        const Sc = 1 + 0.045 * Cbarp;
+        const Sh = 1 + 0.015 * Cbarp * T;
+        const Rt = -Math.sin((2 * dTheta) * Math.PI / 180) * Rc;
+
+        const x = dLp / (kL * Sl);
+        const y = dCp / (kC * Sc);
+        const z = dHp / (kH * Sh);
+        return Math.sqrt(x * x + y * y + z * z + Rt * y * z);
+      }
+
+      function scoreFromDeltaE(deltaE) {
+        return clamp(Math.round(100 * Math.exp(-Math.pow(deltaE / 18, 1.35))), 0, 100);
+      }
+
+      function judge() {
+        if (judged) return;
+        judged = true;
+
+        const guess = getGuess();
+        const targetLab = rgbToLab(hslToRgb(target.h, target.s, target.l));
+        const guessLab = rgbToLab(hslToRgb(guess.h, guess.s, guess.l));
+        const deltaE = deltaE2000(targetLab, guessLab);
+        const score = scoreFromDeltaE(deltaE);
+
+        scoreText.textContent = `${score}点`;
+        resultDetails.innerHTML = `正解 H ${target.h}° / S ${target.s}% / L ${target.l}%<br>予想 H ${guess.h}° / S ${guess.s}% / L ${guess.l}% · ΔE ${deltaE.toFixed(1)}`;
+        resultBox.classList.remove('hidden');
+        judgeButton.hidden = true;
+        nextButton.hidden = false;
+      }
+
+      [hRange, sRange, lRange].forEach((range) => {
+        range.addEventListener('input', updateGuess, { passive: true });
+        range.addEventListener('touchmove', (event) => event.stopPropagation(), { passive: true });
+      });
+
+      document.addEventListener('touchmove', (event) => {
+        if (!event.target.closest('input[type="range"]')) event.preventDefault();
+      }, { passive: false });
+
+      judgeButton.addEventListener('click', judge);
+      nextButton.addEventListener('click', newRound);
+
+      newRound();
+    })();
+  </script>
 </body>
 </html>
