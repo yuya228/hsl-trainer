@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>HSL Trainer</title>
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 <style>
 .interaction-toggle{position:fixed;z-index:9999;top:max(9px,env(safe-area-inset-top));right:10px;height:34px;padding:0 11px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(35,38,47,.92);color:#f5f7fb;font-size:11px;font-weight:850;display:flex;align-items:center;gap:5px;box-shadow:0 4px 16px rgba(0,0,0,.24);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);touch-action:manipulation}
 .interaction-toggle:active{transform:scale(.96)}
@@ -40,6 +40,13 @@ html.interaction-unlocked .summary-shell{height:auto;min-height:100dvh;overflow:
           <div class="mode-desc">色相・彩度・明度をすべて合わせる</div>
           <div class="mode-best" id="normalBest">ベスト —</div>
         </button>
+      </div>
+      <div class="layout-setting">
+        <div class="layout-setting-head"><span>画面レイアウト</span><span id="layoutHint">iPhone</span></div>
+        <div class="layout-toggle" role="group" aria-label="画面レイアウト">
+          <button class="layout-option active" type="button" data-layout="phone" aria-pressed="true">iPhone</button>
+          <button class="layout-option" type="button" data-layout="ipad" aria-pressed="false">iPad</button>
+        </div>
       </div>
       <div class="menu-foot">1セッション 5問 / 500点満点</div>
     </div>
@@ -119,7 +126,7 @@ html.interaction-unlocked .summary-shell{height:auto;min-height:100dvh;overflow:
     </div>
   </div>
 </section>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 <script>
 (function(){
   'use strict';
