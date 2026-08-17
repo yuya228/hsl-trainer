@@ -13,6 +13,10 @@
 .interaction-toggle:active{transform:scale(.96)}
 #gameScreen .game-topline{padding-right:76px}
 #summaryScreen .summary-shell{width:100%}
+#summaryScreen .summary-card{justify-items:center}
+#summaryScreen .summary-title,#summaryScreen .record{width:100%}
+#summaryScreen .round-list,#summaryScreen .summary-actions{width:min(100%,620px);margin-left:auto;margin-right:auto}
+.layout-recommend{text-align:center;color:var(--muted2);font-size:11px;line-height:1.45}
 .grade-badge.ss{background:#443a20;color:#ffd366;font-size:34px}
 html.interaction-unlocked,html.interaction-unlocked body{height:auto;min-height:100%;overflow:auto;overscroll-behavior:auto}
 html.interaction-unlocked body{position:static;inset:auto;touch-action:auto}
@@ -49,6 +53,7 @@ html.interaction-unlocked .summary-shell{height:auto;min-height:100dvh;overflow:
           <button class="layout-option active" type="button" data-layout="phone" aria-pressed="true">iPhone</button>
           <button class="layout-option" type="button" data-layout="ipad" aria-pressed="false">iPad</button>
         </div>
+        <div class="layout-recommend">推奨：明るさ固定 / True Tone OFF / Night Shift OFF</div>
       </div>
       <div class="menu-foot">1セッション 5問 / 500点満点</div>
     </div>
